@@ -153,9 +153,11 @@ export default function MemberProfile({ member }: { member: MemberData }) {
           }}>
             &ldquo;{member.motto}&rdquo;
           </p>
-          <p style={{ color: 'var(--gray-600)', fontSize: '0.95rem', lineHeight: 1.9, maxWidth: 780 }}>
-            {member.intro}
-          </p>
+          <div style={{ color: 'var(--gray-600)', fontSize: '0.95rem', lineHeight: 1.9, maxWidth: 780 }}>
+            {member.intro.split('\n\n').map((para, i) => (
+              <p key={i} style={{ marginBottom: i < member.intro.split('\n\n').length - 1 ? '1rem' : 0 }}>{para}</p>
+            ))}
+          </div>
         </div>
       </div>
 
