@@ -1,7 +1,14 @@
+import Link from 'next/link';
 import FadeUp from '@/components/FadeUp';
-import Image from 'next/image';
 
 export const metadata = { title: '구성원 | 법무법인 와이앤비' };
+
+const members = [
+  { href: '/team/yang',   monogram: '양', name: '양은지', title: '대표변호사', spec: '부동산 · 감정평가 · 조합소송', tags: ['변호사', '감정평가사'] },
+  { href: '/team/byun',   monogram: '변', name: '변지혜', title: '대표변호사', spec: '채권추심 · 민사소송',           tags: ['변호사', '채권추심 전문'] },
+  { href: '/team/lee',    monogram: '이', name: '이한선', title: '대표변호사', spec: '행정법 · 손해배상',             tags: ['변호사', '행정법 전문', '손해배상 전문'], photo: 'https://cdn.lfind.kr/public/lfind/image/lawyerProfile/26879/378b0c07-ca6e-4a5b-83be-ad0021fb405c.png' },
+  { href: '/team/office', monogram: '사', name: '사무국',  title: '',           spec: '법률사무 · 집행 전담',          tags: ['법률사무', '집행절차'] },
+];
 
 export default function TeamPage() {
   return (
@@ -16,106 +23,40 @@ export default function TeamPage() {
           </div>
         </FadeUp>
 
-        <div className="team-grid">
-          <FadeUp>
-            <div className="team-card">
-              <div className="team-portrait">
-                <div className="team-monogram">양</div>
-                <div className="team-role-tag">대표변호사</div>
-              </div>
-              <div className="team-info">
-                <div className="team-name">양은지 변호사</div>
-                <div className="team-spec">부동산 · 감정평가 · 조합소송</div>
-                <div className="team-quals">
-                  <span className="qual-tag">변호사</span>
-                  <span className="qual-tag">감정평가사</span>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+          gap: '2rem',
+        }}>
+          {members.map(({ href, monogram, name, title, spec, tags, photo }) => (
+            <FadeUp key={href}>
+              <Link href={href} style={{ textDecoration: 'none', display: 'block' }}>
+                <div className="team-card" style={{ cursor: 'pointer' }}>
+                  <div className="team-portrait" style={photo ? { padding: 0, overflow: 'hidden' } : {}}>
+                    {photo
+                      ? <img src={photo} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
+                      : <div className="team-monogram">{monogram}</div>
+                    }
+                    {title && <div className="team-role-tag">{title}</div>}
+                  </div>
+                  <div className="team-info">
+                    <div className="team-name">{name} {title && <span style={{ fontSize: '0.85rem', color: 'var(--gray-600)', fontWeight: 400 }}>{title}</span>}</div>
+                    <div className="team-spec">{spec}</div>
+                    <div className="team-quals">
+                      {tags.map(t => <span key={t} className="qual-tag">{t}</span>)}
+                    </div>
+                    <div style={{
+                      fontSize: '0.8rem', color: 'var(--steel)', fontWeight: 600,
+                      display: 'flex', alignItems: 'center', gap: '0.3rem',
+                      marginTop: '0.5rem',
+                    }}>
+                      자세히 보기 →
+                    </div>
+                  </div>
                 </div>
-                <ul className="career-list">
-                  <li>감정평가 관련 소송 전문</li>
-                  <li>재개발·재건축 조합 소송</li>
-                  <li>부동산 소송</li>
-                  <li>민사소송</li>
-                </ul>
-              </div>
-            </div>
-          </FadeUp>
-
-          <FadeUp>
-            <div className="team-card">
-              <div className="team-portrait">
-                <div className="team-monogram">변</div>
-                <div className="team-role-tag">대표변호사</div>
-              </div>
-              <div className="team-info">
-                <div className="team-name">변지혜 변호사</div>
-                <div className="team-spec">채권추심 · 민사소송</div>
-                <div className="team-quals">
-                  <span className="qual-tag">변호사</span>
-                  <span className="qual-tag">채권추심 전문</span>
-                </div>
-                <ul className="career-list">
-                  <li>채권추심 전문변호사</li>
-                  <li>민사소송 다수 수행</li>
-                  <li>금전·대여금 분쟁</li>
-                  <li>보증채무 관련 사건</li>
-                </ul>
-              </div>
-            </div>
-          </FadeUp>
-
-          <FadeUp>
-            <div className="team-card">
-              <div className="team-portrait" style={{ padding: 0, overflow: 'hidden' }}>
-                <Image
-                  src="https://cdn.lfind.kr/public/lfind/image/lawyerProfile/26879/378b0c07-ca6e-4a5b-83be-ad0021fb405c.png"
-                  alt="이한선 변호사"
-                  width={260} height={190}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
-                />
-                <div className="team-role-tag">대표변호사</div>
-              </div>
-              <div className="team-info">
-                <div className="team-name">이한선 변호사</div>
-                <div className="team-spec">행정법 · 손해배상</div>
-                <div className="team-quals">
-                  <span className="qual-tag">변호사</span>
-                  <span className="qual-tag">행정법 전문</span>
-                  <span className="qual-tag">손해배상 전문</span>
-                </div>
-                <ul className="career-list">
-                  <li>전북대학교 법학전문대학원 졸업</li>
-                  <li>전북특별자치도의회 고문변호사 (입법)</li>
-                  <li>전주지방법원 국선변호인</li>
-                  <li>전주시 덕진구 선거관리위원회 위원</li>
-                  <li>학교폭력대책심의위원회 위원</li>
-                  <li>여성가족부 성폭력피해자 법률지원 전문변호사</li>
-                </ul>
-              </div>
-            </div>
-          </FadeUp>
-
-          <FadeUp>
-            <div className="team-card">
-              <div className="team-portrait" style={{ background: 'linear-gradient(155deg, #2c3a4f 0%, #3d4f65 100%)' }}>
-                <div className="team-monogram">이</div>
-                <div className="team-role-tag staff">사무과장</div>
-              </div>
-              <div className="team-info">
-                <div className="team-name">이상은 사무과장</div>
-                <div className="team-spec">법률사무 · 집행 전담</div>
-                <div className="team-quals">
-                  <span className="qual-tag">법률사무</span>
-                  <span className="qual-tag">집행절차</span>
-                </div>
-                <ul className="career-list">
-                  <li>법률 집행 절차 전문</li>
-                  <li>소송 서류 및 기일 관리</li>
-                  <li>의뢰인 응대 및 사건 지원</li>
-                  <li>법원 제출 서류 작성 보조</li>
-                </ul>
-              </div>
-            </div>
-          </FadeUp>
+              </Link>
+            </FadeUp>
+          ))}
         </div>
       </div>
     </section>

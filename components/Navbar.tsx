@@ -7,10 +7,10 @@ import { useState, useEffect } from 'react';
 
 const navLinks = [
   { href: '/about',    label: '법인 소개' },
+  { href: '/team',     label: '구성원' },
   { href: '/clients',  label: '상담 대상' },
   { href: '/practice', label: '업무분야' },
   { href: '/cases',    label: '성공사례' },
-  { href: '/team',     label: '구성원' },
   { href: '/contact',  label: '연락처' },
 ];
 
@@ -51,8 +51,8 @@ export default function Navbar() {
         }} className="desktop-nav">
           {navLinks.map(({ href, label }) => (
             <Link key={href} href={href} style={{
-              color: pathname === href ? 'var(--navy)' : 'var(--gray-600)',
-              fontWeight: pathname === href ? 700 : 500,
+              color: pathname.startsWith(href) ? 'var(--navy)' : 'var(--gray-600)',
+              fontWeight: pathname.startsWith(href) ? 700 : 500,
               fontSize: '0.855rem',
               letterSpacing: '0.2px',
               transition: 'color 0.25s ease',
@@ -102,8 +102,8 @@ export default function Navbar() {
           {navLinks.map(({ href, label }) => (
             <Link key={href} href={href} style={{
               fontSize: '1rem',
-              color: pathname === href ? 'var(--navy)' : 'var(--gray-800)',
-              fontWeight: pathname === href ? 700 : 400,
+              color: pathname.startsWith(href) ? 'var(--navy)' : 'var(--gray-800)',
+              fontWeight: pathname.startsWith(href) ? 700 : 400,
               textDecoration: 'none',
             }}>
               {label}

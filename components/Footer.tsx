@@ -3,10 +3,10 @@ import Image from 'next/image';
 
 const navLinks = [
   { href: '/about',    label: '법인 소개' },
+  { href: '/team',     label: '구성원' },
   { href: '/clients',  label: '상담 대상' },
   { href: '/practice', label: '업무분야' },
   { href: '/cases',    label: '성공사례' },
-  { href: '/team',     label: '구성원' },
   { href: '/contact',  label: '연락처' },
 ];
 
