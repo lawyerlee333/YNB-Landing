@@ -8,6 +8,7 @@ interface Post {
   keyword: string;
   title: string;
   content: string;
+  imageUrl?: string;
 }
 
 export default function LegalInfoPage() {
@@ -50,23 +51,30 @@ export default function LegalInfoPage() {
               <button
                 key={post.id}
                 onClick={() => setSelected(post)}
-                style={{
-                  all: 'unset',
-                  display: 'block',
-                  cursor: 'pointer',
-                  width: '100%',
-                }}
+                style={{ all: 'unset', display: 'block', cursor: 'pointer', width: '100%' }}
               >
-                <div className="case-card" style={{ height: '100%' }}>
-                  <div className="case-header">
-                    {post.keyword && (
-                      <span className="case-badge">{post.keyword}</span>
-                    )}
-                    <span style={{ fontSize: '0.78rem', color: 'var(--gray-400)', marginLeft: 'auto' }}>
-                      {new Date(post.createdAt).toLocaleDateString('ko-KR')}
-                    </span>
-                  </div>
-                  <div className="case-body">
+                <div className="case-card" style={{ height: '100%', padding: 0, overflow: 'hidden' }}>
+                  {post.imageUrl && (
+                    <img
+                      src={post.imageUrl}
+                      alt={post.title}
+                      style={{
+                        width: '100%',
+                        height: 180,
+                        objectFit: 'cover',
+                        display: 'block',
+                      }}
+                    />
+                  )}
+                  <div style={{ padding: '1.25rem 1.5rem' }}>
+                    <div className="case-header" style={{ padding: 0, marginBottom: '0.75rem' }}>
+                      {post.keyword && (
+                        <span className="case-badge">{post.keyword}</span>
+                      )}
+                      <span style={{ fontSize: '0.78rem', color: 'var(--gray-400)', marginLeft: 'auto' }}>
+                        {new Date(post.createdAt).toLocaleDateString('ko-KR')}
+                      </span>
+                    </div>
                     <h3 className="case-title">{post.title}</h3>
                     <p className="case-desc" style={{
                       display: '-webkit-box',
@@ -95,19 +103,28 @@ export default function LegalInfoPage() {
             >
               ← 목록으로
             </button>
-            <div className="case-card" style={{ padding: '2rem 2.5rem' }}>
-              <div className="case-header" style={{ marginBottom: '1rem' }}>
-                {selected.keyword && <span className="case-badge">{selected.keyword}</span>}
-                <span style={{ fontSize: '0.78rem', color: 'var(--gray-400)', marginLeft: 'auto' }}>
-                  {new Date(selected.createdAt).toLocaleDateString('ko-KR')}
-                </span>
+            <div className="case-card" style={{ padding: 0, overflow: 'hidden' }}>
+              {selected.imageUrl && (
+                <img
+                  src={selected.imageUrl}
+                  alt={selected.title}
+                  style={{ width: '100%', maxHeight: 360, objectFit: 'cover', display: 'block' }}
+                />
+              )}
+              <div style={{ padding: '2rem 2.5rem' }}>
+                <div className="case-header" style={{ padding: 0, marginBottom: '1rem' }}>
+                  {selected.keyword && <span className="case-badge">{selected.keyword}</span>}
+                  <span style={{ fontSize: '0.78rem', color: 'var(--gray-400)', marginLeft: 'auto' }}>
+                    {new Date(selected.createdAt).toLocaleDateString('ko-KR')}
+                  </span>
+                </div>
+                <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '1.5rem' }}>
+                  {selected.title}
+                </h2>
+                <p style={{ fontSize: '0.95rem', lineHeight: 1.85, color: 'var(--gray-700)', whiteSpace: 'pre-wrap' }}>
+                  {selected.content}
+                </p>
               </div>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '1.5rem' }}>
-                {selected.title}
-              </h2>
-              <p style={{ fontSize: '0.95rem', lineHeight: 1.85, color: 'var(--gray-700)', whiteSpace: 'pre-wrap' }}>
-                {selected.content}
-              </p>
             </div>
           </div>
         )}

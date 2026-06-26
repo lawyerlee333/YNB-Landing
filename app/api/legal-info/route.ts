@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
     keyword: body.keyword ?? '',
     title: body.title ?? '',
     content: body.content ?? '',
+    imageUrl: body.imageUrl ?? '',
   };
   const client = await getClient();
   try {
