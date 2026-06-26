@@ -4,9 +4,9 @@ import FadeUp from '@/components/FadeUp';
 export const metadata = { title: '구성원 | 법무법인 와이앤비' };
 
 const members = [
-  { href: '/team/yang',   monogram: '양', name: '양은지', title: '대표변호사', tags: ['변호사', '감정평가사'], photo: '/yang.jpg' },
-  { href: '/team/byun',   monogram: '변', name: '변지혜', title: '대표변호사', tags: ['변호사'] },
-  { href: '/team/lee',    monogram: '이', name: '이한선', title: '대표변호사', tags: ['변호사'], photo: 'https://cdn.lfind.kr/public/lfind/image/lawyerProfile/26879/378b0c07-ca6e-4a5b-83be-ad0021fb405c.png' },
+  { href: '/team/yang',   monogram: '양', name: '양은지', title: '대표변호사', tags: ['변호사', '감정평가사'], photo: '/yang.jpg',  photoPos: '50% 25%' },
+  { href: '/team/byun',   monogram: '변', name: '변지혜', title: '대표변호사', tags: ['변호사'],               photo: '/byun.png', photoPos: '50% 10%' },
+  { href: '/team/lee',    monogram: '이', name: '이한선', title: '대표변호사', tags: ['변호사'],               photo: 'https://cdn.lfind.kr/public/lfind/image/lawyerProfile/26879/378b0c07-ca6e-4a5b-83be-ad0021fb405c.png', photoPos: '50% 12%' },
   { href: '/team/office', monogram: '사', name: '사무국',  title: '',          tags: ['법률사무'] },
 ];
 
@@ -28,13 +28,13 @@ export default function TeamPage() {
           gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
           gap: '2rem',
         }}>
-          {members.map(({ href, monogram, name, title, tags, photo }) => (
+          {members.map(({ href, monogram, name, title, tags, photo, photoPos }) => (
             <FadeUp key={href}>
               <Link href={href} style={{ textDecoration: 'none', display: 'block' }}>
                 <div className="team-card" style={{ cursor: 'pointer' }}>
                   <div className="team-portrait" style={photo ? { padding: 0, overflow: 'hidden' } : {}}>
                     {photo
-                      ? <img src={photo} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
+                      ? <img src={photo} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: photoPos ?? '50% 15%', display: 'block' }} />
                       : <div className="team-monogram">{monogram}</div>
                     }
                     {title && <div className="team-role-tag">{title}</div>}
