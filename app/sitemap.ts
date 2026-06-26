@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/practice`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/cases`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE_URL}/legal-info`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
     { url: `${BASE_URL}/clients`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/team`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/team/lee`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },

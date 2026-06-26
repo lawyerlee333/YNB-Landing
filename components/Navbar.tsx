@@ -10,8 +10,9 @@ const navLinks = [
   { href: '/team',     label: '구성원' },
   { href: '/clients',  label: '상담 대상' },
   { href: '/practice', label: '업무분야' },
-  { href: '/cases',    label: '성공사례' },
-  { href: '/contact',  label: '연락처' },
+  { href: '/cases',      label: '성공사례' },
+  { href: '/legal-info', label: '법률정보' },
+  { href: '/contact',    label: '연락처' },
 ];
 
 export default function Navbar() {
