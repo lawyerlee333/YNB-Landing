@@ -1,0 +1,34 @@
+# 법무법인 와이앤비 (Law Firm Y&B)
+
+> 전북 전주 소재 법무법인. 민사·형사·이혼·행정·노동 등 다양한 분야를 전문으로 합니다.
+
+법무법인 와이앤비(Y&B)는 전라북도 전주에 위치한 법무법인으로, 세 명의 대표변호사가 의뢰인에게 최고의 법률 서비스를 제공합니다.
+
+## 구성원
+
+- **이한선 변호사** — 민사, 형사, 이혼·가사 전문
+- **양은지 변호사** — 민사, 가사, 행정 전문
+- **변지혜 변호사** — 민사, 형사, 노동 전문
+
+## 주요 업무 분야
+
+- 민사소송 (손해배상, 계약분쟁, 부동산)
+- 형사사건 (고소·고발, 변호, 항소)
+- 이혼·가사 (협의이혼, 소송이혼, 양육권, 재산분할)
+- 행정소송 (행정심판, 취소소송)
+- 노동사건 (부당해고, 임금체불, 산재)
+
+## 연락처
+
+- 소재지: 전라북도 전주시
+- 상담 신청: https://ynb-landing.vercel.app/contact
+
+## 페이지 목록
+
+- [홈](https://ynb-landing.vercel.app/)
+- [법인 소개](https://ynb-landing.vercel.app/about)
+- [업무 분야](https://ynb-landing.vercel.app/practice)
+- [주요 사례](https://ynb-landing.vercel.app/cases)
+- [주요 의뢰인](https://ynb-landing.vercel.app/clients)
+- [구성원 소개](https://ynb-landing.vercel.app/team)
+- [상담 신청](https://ynb-landing.vercel.app/contact)
