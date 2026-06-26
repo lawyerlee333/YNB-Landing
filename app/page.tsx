@@ -87,7 +87,7 @@ export default function Home() {
           marginBottom: '3rem',
           animation: 'heroFadeIn 0.8s ease 0.75s forwards', opacity: 0,
         }}>
-          당신에게 최고의 결과를 실현해드립니다
+          당신에게 최선의 결과를 실현해드립니다
         </p>
 
         {/* 버튼 */}

@@ -7,7 +7,7 @@ const BASE_URL = 'https://ynb-landing.vercel.app';
 
 export const metadata: Metadata = {
   title: '법무법인 와이앤비 | Realize Your Best',
-  description: '법무법인 와이앤비 — 전북 전주 소재. 민사·형사·이혼·행정·노동 등 다양한 분야의 전문 변호사팀이 최고의 결과를 실현해드립니다.',
+  description: '법무법인 와이앤비 — 전북 전주 소재. 민사·형사·이혼·행정·노동 등 다양한 분야의 전문 변호사팀이 최선의 결과를 실현해드립니다.',
   metadataBase: new URL(BASE_URL),
   openGraph: {
     title: '법무법인 와이앤비 | Realize Your Best',
