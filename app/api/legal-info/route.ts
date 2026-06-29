@@ -23,6 +23,30 @@ export async function GET() {
   return NextResponse.json(posts);
 }
 
+// 특정 id 또는 keyword로 글 삭제 (secret 필요)
+export async function DELETE(req: NextRequest) {
+  const body = await req.json();
+  if (body.secret !== SECRET) {
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  }
+
+  const client = await getClient();
+  try {
+    const raw = await client.lRange(KEY, 0, -1);
+    const all = raw.map((r) => JSON.parse(r));
+    const keep = all.filter((p) =>
+      body.id ? p.id !== body.id : body.keyword ? p.keyword !== body.keyword : true
+    );
+    await client.del(KEY);
+    for (let i = keep.length - 1; i >= 0; i--) {
+      await client.lPush(KEY, JSON.stringify(keep[i]));
+    }
+    return NextResponse.json({ ok: true, deleted: all.length - keep.length });
+  } finally {
+    await client.quit();
+  }
+}
+
 // 새 글 등록 (n8n 자동화가 호출, secret 필요)
 export async function POST(req: NextRequest) {
   const body = await req.json();
