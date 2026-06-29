@@ -1,10 +1,6 @@
-// app/cases/detail/page.tsx
-//
-// 성공사례 상세페이지. URL: /cases/detail?caseId=866
-
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 type CaseDetail = {
@@ -17,7 +13,7 @@ type CaseDetail = {
   createdAt: string;
 };
 
-export default function CaseDetailPage() {
+function CaseDetailContent() {
   const searchParams = useSearchParams();
   const caseId = searchParams.get('caseId');
 
@@ -84,5 +80,13 @@ export default function CaseDetailPage() {
         <p style={{ lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>{data.result}</p>
       </section>
     </div>
+  );
+}
+
+export default function CaseDetailPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: '60px 20px' }}>불러오는 중...</div>}>
+      <CaseDetailContent />
+    </Suspense>
   );
 }
