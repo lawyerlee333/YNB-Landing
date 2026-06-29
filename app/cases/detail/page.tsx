@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 
 type CaseDetail = {
   caseId: number;
+  category: string;
   caseType: string;
   summary: string;
   strategy: string;
@@ -27,7 +28,6 @@ function CaseDetailContent() {
       setLoading(false);
       return;
     }
-
     fetch(`/api/cases/${caseId}`)
       .then((res) => {
         if (!res.ok) throw new Error('not found');
@@ -38,29 +38,18 @@ function CaseDetailContent() {
       .finally(() => setLoading(false));
   }, [caseId]);
 
-  if (loading) {
-    return <div style={{ padding: '60px 20px' }}>불러오는 중...</div>;
-  }
-
-  if (error || !data) {
-    return <div style={{ padding: '60px 20px' }}>{error || '사례를 찾을 수 없습니다.'}</div>;
-  }
+  if (loading) return <div style={{ padding: '60px 20px' }}>불러오는 중...</div>;
+  if (error || !data) return <div style={{ padding: '60px 20px' }}>{error || '사례를 찾을 수 없습니다.'}</div>;
 
   return (
     <div style={{ maxWidth: 800, margin: '0 auto', padding: '60px 20px' }}>
       <div style={{ color: '#888', fontSize: 14, marginBottom: 8 }}>
-        성공사례 #{data.caseId}
+        {data.category} · 성공사례 #{data.caseId}
       </div>
-      <h1 style={{ fontSize: 28, fontWeight: 700, marginBottom: 24 }}>
-        {data.caseType}
-      </h1>
+      <h1 style={{ fontSize: 28, fontWeight: 700, marginBottom: 24 }}>{data.caseType}</h1>
 
       {data.image && (
-        <img
-          src={data.image}
-          alt={data.caseType}
-          style={{ width: '100%', borderRadius: 8, marginBottom: 32 }}
-        />
+        <img src={data.image} alt={data.caseType} style={{ width: '100%', borderRadius: 8, marginBottom: 32 }} />
       )}
 
       <section style={{ marginBottom: 32 }}>
@@ -69,9 +58,7 @@ function CaseDetailContent() {
       </section>
 
       <section style={{ marginBottom: 32 }}>
-        <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 12 }}>
-          법무법인 와이앤비의 전략 및 대응
-        </h2>
+        <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 12 }}>법무법인 와이앤비의 전략 및 대응</h2>
         <p style={{ lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>{data.strategy}</p>
       </section>
 

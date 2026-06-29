@@ -4,11 +4,22 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import FadeUp from '@/components/FadeUp';
 
-type LegacyCase = { badge: string; result: string; title: string; desc: string };
-type DynamicCase = { caseId: number; caseType: string; summary: string; strategy: string; result: string; image: string; createdAt: string };
+type DynamicCase = {
+  caseId: number;
+  category: string;
+  caseType: string;
+  summary: string;
+  strategy: string;
+  result: string;
+  image: string;
+  createdAt: string;
+};
 
-export default function CasesGrid({ legacyCases }: { legacyCases: LegacyCase[] }) {
+const TABS = ['전체', '형사', '민사', '손해배상', '이혼/상간', '가사', '행정', '기타'];
+
+export default function CasesGrid({ legacyCases }: { legacyCases: any[] }) {
   const [dynamicCases, setDynamicCases] = useState<DynamicCase[]>([]);
+  const [activeTab, setActiveTab] = useState('전체');
 
   useEffect(() => {
     fetch('/api/cases')
@@ -17,41 +28,60 @@ export default function CasesGrid({ legacyCases }: { legacyCases: LegacyCase[] }
       .catch(() => setDynamicCases([]));
   }, []);
 
+  const filtered = activeTab === '전체'
+    ? dynamicCases
+    : dynamicCases.filter((c) => c.category === activeTab);
+
   return (
-    <div className="cases-grid">
-      {dynamicCases.map((c) => (
-        <FadeUp key={c.caseId}>
-          <Link href={`/cases/detail?caseId=${c.caseId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <div className="case-card">
-              {c.image && (
-                <img src={c.image} alt={c.caseType} style={{ width: '100%', aspectRatio: '4 / 3', objectFit: 'cover', borderRadius: 6, marginBottom: 12 }} />
-              )}
-              <div className="case-header">
-                <span className="case-badge">{c.caseType}</span>
-                <span className="case-result">{c.result}</span>
+    <div>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 32, justifyContent: 'center' }}>
+        {TABS.map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            style={{
+              padding: '8px 18px',
+              borderRadius: 20,
+              border: activeTab === tab ? '1px solid #1a1a2e' : '1px solid #ddd',
+              background: activeTab === tab ? '#1a1a2e' : 'white',
+              color: activeTab === tab ? 'white' : '#333',
+              fontSize: 14,
+              cursor: 'pointer',
+              transition: 'all 0.15s',
+            }}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
+
+      <div className="cases-grid">
+        {filtered.map((c) => (
+          <FadeUp key={c.caseId}>
+            <Link href={`/cases/detail?caseId=${c.caseId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div className="case-card">
+                {c.image && (
+                  <img src={c.image} alt={c.caseType} style={{ width: '100%', aspectRatio: '4 / 3', objectFit: 'cover', borderRadius: 6, marginBottom: 12 }} />
+                )}
+                <div className="case-header">
+                  <span className="case-badge">{c.category}</span>
+                  <span className="case-result">{c.result}</span>
+                </div>
+                <div className="case-body">
+                  <h3 className="case-title">{c.caseType}</h3>
+                  <p className="case-desc">{c.summary}</p>
+                </div>
               </div>
-              <div className="case-body">
-                <h3 className="case-title">{c.caseType}</h3>
-                <p className="case-desc">{c.summary}</p>
-              </div>
-            </div>
-          </Link>
-        </FadeUp>
-      ))}
-      {legacyCases.map(({ badge, result, title, desc }) => (
-        <FadeUp key={title}>
-          <div className="case-card">
-            <div className="case-header">
-              <span className="case-badge">{badge}</span>
-              <span className="case-result">{result}</span>
-            </div>
-            <div className="case-body">
-              <h3 className="case-title">{title}</h3>
-              <p className="case-desc">{desc}</p>
-            </div>
-          </div>
-        </FadeUp>
-      ))}
+            </Link>
+          </FadeUp>
+        ))}
+      </div>
+
+      {filtered.length === 0 && (
+        <p style={{ textAlign: 'center', color: '#888', padding: '40px 0' }}>
+          해당 분야의 사례가 아직 없습니다.
+        </p>
+      )}
     </div>
   );
 }

@@ -1,8 +1,4 @@
 // app/api/cases/[caseId]/route.ts
-//
-// GET: 특정 caseId 하나만 조회
-// PUT: 특정 caseId 내용 수정 (secret 필요)
-// DELETE: 특정 caseId 삭제 (secret 필요)
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from 'redis';
@@ -51,14 +47,12 @@ export async function PUT(
   try {
     const raw = await client.lRange(KEY, 0, -1);
     const idx = raw.findIndex((r) => JSON.parse(r).caseId === targetId);
-
-    if (idx === -1) {
-      return NextResponse.json({ error: 'not found' }, { status: 404 });
-    }
+    if (idx === -1) return NextResponse.json({ error: 'not found' }, { status: 404 });
 
     const existing = JSON.parse(raw[idx]);
     const updated = {
       ...existing,
+      category: body.category ?? existing.category,
       caseType: body.caseType ?? existing.caseType,
       summary: body.summary ?? existing.summary,
       strategy: body.strategy ?? existing.strategy,
@@ -66,9 +60,7 @@ export async function PUT(
       image: body.image ?? existing.image,
     };
 
-    // 리스트에서 같은 위치(인덱스)의 값을 교체
     await client.lSet(KEY, idx, JSON.stringify(updated));
-
     return NextResponse.json({ ok: true, case: updated });
   } finally {
     await client.quit();
@@ -81,7 +73,6 @@ export async function DELETE(
 ) {
   const { caseId } = await params;
   const targetId = parseInt(caseId, 10);
-
   const url = new URL(req.url);
   const secret = url.searchParams.get('secret');
 
@@ -93,10 +84,7 @@ export async function DELETE(
   try {
     const raw = await client.lRange(KEY, 0, -1);
     const target = raw.find((r) => JSON.parse(r).caseId === targetId);
-
-    if (!target) {
-      return NextResponse.json({ error: 'not found' }, { status: 404 });
-    }
+    if (!target) return NextResponse.json({ error: 'not found' }, { status: 404 });
 
     await client.lRem(KEY, 1, target);
     return NextResponse.json({ ok: true, deleted: targetId });

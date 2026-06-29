@@ -2,8 +2,11 @@
 
 import { useState } from 'react';
 
+const CATEGORIES = ['형사', '민사', '손해배상', '이혼/상간', '가사', '행정', '기타'];
+
 export default function AdminCasesPage() {
   const [secret, setSecret] = useState('');
+  const [category, setCategory] = useState(CATEGORIES[0]);
   const [caseType, setCaseType] = useState('');
   const [summary, setSummary] = useState('');
   const [strategy, setStrategy] = useState('');
@@ -16,20 +19,17 @@ export default function AdminCasesPage() {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     if (!secret) {
       setStatus('먼저 관리자 비밀번호를 입력해주세요.');
       e.target.value = '';
       return;
     }
-
     const reader = new FileReader();
     reader.onload = async () => {
       const base64 = reader.result as string;
       setImagePreview(base64);
       setUploading(true);
       setStatus('이미지 업로드 중...');
-
       try {
         const res = await fetch('/api/cases/upload', {
           method: 'POST',
@@ -64,7 +64,7 @@ export default function AdminCasesPage() {
       const res = await fetch('/api/cases', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ secret, caseType, summary, strategy, result, image }),
+        body: JSON.stringify({ secret, category, caseType, summary, strategy, result, image }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -88,8 +88,15 @@ export default function AdminCasesPage() {
         <label style={labelStyle}>관리자 비밀번호</label>
         <input type="password" value={secret} onChange={(e) => setSecret(e.target.value)} style={inputStyle} required />
 
-        <label style={labelStyle}>사건 종류</label>
-        <input type="text" value={caseType} onChange={(e) => setCaseType(e.target.value)} placeholder="예: 교통사고, 사기, 폭행 등" style={inputStyle} required />
+        <label style={labelStyle}>분야</label>
+        <select value={category} onChange={(e) => setCategory(e.target.value)} style={inputStyle}>
+          {CATEGORIES.map((c) => (
+            <option key={c} value={c}>{c}</option>
+          ))}
+        </select>
+
+        <label style={labelStyle}>사건 종류 / 제목</label>
+        <input type="text" value={caseType} onChange={(e) => setCaseType(e.target.value)} placeholder="예: 교통사고 합의금 분쟁" style={inputStyle} required />
 
         <label style={labelStyle}>사건 개요</label>
         <textarea value={summary} onChange={(e) => setSummary(e.target.value)} rows={5} style={inputStyle} required />

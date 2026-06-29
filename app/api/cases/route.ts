@@ -1,8 +1,7 @@
 // app/api/cases/route.ts
 //
-// 성공사례 저장/조회 API.
 // GET: 전체 목록 조회 (공개)
-// POST: 새 사례 등록 (secret 필요, 관리자 폼에서 호출)
+// POST: 새 사례 등록 (secret 필요)
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from 'redis';
@@ -51,6 +50,7 @@ export async function POST(req: NextRequest) {
       id: Date.now(),
       caseId,
       createdAt: new Date().toISOString(),
+      category: body.category || '기타', // 분야 (필터용)
       caseType: body.caseType || '',
       summary: body.summary || '',
       strategy: body.strategy || '',
