@@ -1,0 +1,5 @@
+{
+  "crons": [
+    { "path": "/api/legal-info/generate", "schedule": "0 23 * * *" }
+  ]
+}
