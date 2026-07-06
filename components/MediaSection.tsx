@@ -3,19 +3,19 @@ import Image from 'next/image';
 const interviews = [
   {
     src: '/interview-jtv.png',
-    station: 'JTV',
+    station: 'JTV 8시 뉴스',
     stationColor: '#004B9B',
     attorney: '양은지 변호사',
     topic: '분양가 결정 법률 해설',
-    desc: '민간 임대아파트 분양 전환 과정의 법적 쟁점에 대해 JTV 8뉴스에서 전문가 코멘트를 맡았습니다.',
+    desc: '감정평가사 자격을 겸비한 부동산 전문 변호사로서, 민간 임대아파트 분양 전환 시 가격 결정의 법적 쟁점을 JTV 8시 뉴스에서 해설했습니다.',
   },
   {
     src: '/interview-mbc.png',
     station: 'MBC 스트레이트',
     stationColor: '#C8102E',
     attorney: '이한선 변호사',
-    topic: '교제폭력 피해자 변호',
-    desc: '범죄 피해자 보호 사건을 수임하여 MBC 탐사보도 프로그램 스트레이트에 출연, 피해자의 입장을 대변했습니다.',
+    topic: '교제폭력 피해 사건 변호',
+    desc: '직접 수임한 교제폭력 사건의 피해 쟁점을 MBC 탐사보도 프로그램 스트레이트를 통해 알렸습니다. 피해자 곁에서 법적 권리를 끝까지 지키는 변호를 합니다.',
   },
 ];
 
