@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import MediaSection from '@/components/MediaSection';
 
 export default function Home() {
   return (
+    <>
     <section style={{
       minHeight: '100vh',
       background: 'var(--navy)',
@@ -157,5 +159,7 @@ export default function Home() {
         }
       `}</style>
     </section>
+    <MediaSection />
+    </>
   );
 }
