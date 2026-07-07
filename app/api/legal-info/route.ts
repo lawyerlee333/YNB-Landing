@@ -47,6 +47,40 @@ export async function DELETE(req: NextRequest) {
   }
 }
 
+// 글 수정 (secret 필요)
+export async function PATCH(req: NextRequest) {
+  const body = await req.json();
+  if (body.secret !== SECRET) {
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  }
+  if (!body.id) {
+    return NextResponse.json({ error: 'id required' }, { status: 400 });
+  }
+
+  const client = await getClient();
+  try {
+    const raw = await client.lRange(KEY, 0, -1);
+    const all = raw.map((r) => JSON.parse(r));
+    const idx = all.findIndex((p) => p.id === body.id);
+    if (idx === -1) return NextResponse.json({ error: 'not found' }, { status: 404 });
+
+    all[idx] = {
+      ...all[idx],
+      ...(body.title !== undefined && { title: body.title }),
+      ...(body.keyword !== undefined && { keyword: body.keyword }),
+      ...(body.content !== undefined && { content: body.content }),
+    };
+
+    await client.del(KEY);
+    for (let i = all.length - 1; i >= 0; i--) {
+      await client.lPush(KEY, JSON.stringify(all[i]));
+    }
+    return NextResponse.json({ ok: true });
+  } finally {
+    await client.quit();
+  }
+}
+
 // 새 글 등록 (n8n 자동화가 호출, secret 필요)
 export async function POST(req: NextRequest) {
   const body = await req.json();
