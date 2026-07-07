@@ -20,10 +20,23 @@ const inputStyle: React.CSSProperties = {
 export default function ManageLegalInfoPage() {
   const [secret, setSecret] = useState('');
   const [authed, setAuthed] = useState(false);
+  const [authError, setAuthError] = useState('');
   const [posts, setPosts] = useState<Post[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<Partial<Post>>({});
   const [status, setStatus] = useState('');
+
+  const login = async () => {
+    setAuthError('');
+    // PATCH with dummy id: 401=비밀번호 틀림, 404=비밀번호 맞음
+    const res = await fetch('/api/legal-info', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ secret, id: 0 }),
+    });
+    if (res.status === 401) { setAuthError('비밀번호가 틀렸습니다.'); return; }
+    setAuthed(true);
+  };
 
   const loadPosts = () => {
     fetch('/api/legal-info')
@@ -79,11 +92,12 @@ export default function ManageLegalInfoPage() {
           placeholder="관리자 비밀번호"
           value={secret}
           onChange={(e) => setSecret(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && setAuthed(true)}
+          onKeyDown={(e) => e.key === 'Enter' && login()}
           style={inputStyle}
         />
+        {authError && <p style={{ color: '#c33', fontSize: 13, marginBottom: 8 }}>{authError}</p>}
         <button
-          onClick={() => setAuthed(true)}
+          onClick={login}
           style={{ padding: '10px 20px', background: '#1a1a2e', color: 'white', border: 'none', borderRadius: 6, cursor: 'pointer', width: '100%' }}
         >
           입장
